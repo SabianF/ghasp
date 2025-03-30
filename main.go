@@ -3,12 +3,15 @@ package main
 import (
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 //? GHASP Stack
@@ -20,8 +23,16 @@ import (
 
 func main() {
 	handleSigTerm()
+	loadEnvironmentVariables()
 	router := initRouter()
 	listenAndServe(router)
+}
+
+func loadEnvironmentVariables() {
+	err := godotenv.Load()
+	if (err != nil) {
+		log.Fatal("Error loading .env")
+	}
 }
 
 // Allows graceful shutdown
@@ -30,7 +41,7 @@ func handleSigTerm() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		fmt.Println("Received SIGTERM. Exiting...")
+		log.Println("Received SIGTERM. Exiting...")
 		os.Exit(1)
 	}()
 }
@@ -38,8 +49,19 @@ func handleSigTerm() {
 func initRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", handleRoot)
+	router.Use(middlewareLogRequests)
 	http.Handle("/", router)
 	return router
+}
+
+func middlewareLogRequests(next http.Handler) http.Handler {
+	return http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			currentTime := time.Now().Format(time.RFC3339Nano)
+			log.Printf("%s %s %s (%s)", currentTime, r.Method, r.RequestURI, r.RemoteAddr)
+			next.ServeHTTP(w, r)
+		},
+	)
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
@@ -50,14 +72,13 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 
 func listenAndServe(router *mux.Router) {
 	const port string = ":3333"
-	fmt.Printf("Starting server on port %s ...\n", port)
+	log.Printf("Starting server on port %s ...\n", port)
 
 	err := http.ListenAndServe(port, router)
 	if errors.Is(err, http.ErrServerClosed) {
-		fmt.Printf("Server closed\n")
+		log.Println("Server closed")
 
 	} else if err != nil {
-		fmt.Printf("Error with server: %s\n", err)
-		os.Exit(1)
+		log.Fatalf("Error with server: %s\n", err)
 	}
 }
