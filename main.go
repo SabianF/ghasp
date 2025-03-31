@@ -90,7 +90,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func listenAndServe(router *mux.Router) {
-	const port string = ":3333"
+	port := ":" + os.Getenv("APP_PORT")
 	log.Printf("Starting server on port %s ...\n", port)
 
 	err := http.ListenAndServe(port, router)

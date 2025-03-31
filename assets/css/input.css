@@ -1,6 +1,4 @@
 @import 'tailwindcss' source("../");
-@import 'tailwindcss/preflight';
-@tailwind utilities;
 
 @custom-variant dark (&:where(.dark, .dark *));
 
