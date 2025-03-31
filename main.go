@@ -2,7 +2,8 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	"flag"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -49,9 +50,23 @@ func handleSigTerm() {
 func initRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", handleRoot)
+	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
 	http.Handle("/", router)
 	return router
+}
+
+func serveStaticFiles(router *mux.Router) {
+	const defaultDir string = "./assets"
+
+	var dir string
+	flag.StringVar(&dir, "dir", defaultDir, "the directory to serve files from.")
+	flag.Parse()
+
+	assetsHandler := http.StripPrefix("/assets/", http.FileServer(http.Dir(dir)))
+	assetsRouter := router.PathPrefix("/assets/")
+
+	assetsRouter.Handler(assetsHandler)
 }
 
 func middlewareLogRequests(next http.Handler) http.Handler {
@@ -65,9 +80,19 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Category: %v\n", vars["category"])
+	htmlTemplate, err := template.ParseFiles("assets/html/test.html")
+	if (err != nil) {
+		log.Printf("Failed to parse HTML: %v\n", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	err = htmlTemplate.Execute(w, nil)
+	if (err != nil) {
+		log.Printf("Failed to hydrate & render HTML: %v\n", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
 func listenAndServe(router *mux.Router) {

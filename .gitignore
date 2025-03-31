@@ -23,3 +23,7 @@ go.work.sum
 
 # env file
 .env
+
+# TailwindCSS related files
+tailwind-run.sh
+assets/css/output.css
