@@ -27,3 +27,8 @@ go.work.sum
 # TailwindCSS related files
 tailwind-run.sh
 assets/css/output.css
+
+# Custom scripts
+run.sh
+build-tailwind.sh
+build-templ.sh

@@ -3,13 +3,14 @@ package main
 import (
 	"errors"
 	"flag"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	components "github.com/SabianF/ghasp/assets/templ"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -80,18 +81,11 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-	htmlTemplate, err := template.ParseFiles("assets/html/test.html")
-	if (err != nil) {
-		log.Printf("Failed to parse HTML: %v\n", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	rootPageComponent := components.RootPage()
 
-	err = htmlTemplate.Execute(w, nil)
+	err := rootPageComponent.Render(r.Context(), w)
 	if (err != nil) {
-		log.Printf("Failed to hydrate & render HTML: %v\n", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		log.Fatalf("Failed to render component: %v\n", err)
 	}
 }
 
