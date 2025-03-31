@@ -1,20 +1,39 @@
 package components
 
+import (
+  templui "github.com/axzilla/templui/components"
+)
+
 templ RootPage() {
   @Layout() {
-    <div class="bg-sky-200 p-8 min-h-96 max-w-fit">
-      <h1 class="text-2xl text-red-800">A heading using Tailwind utility classes</h1>
-      <p>A paragraph using no styles</p>
-      <p class="text-2xl hover:text-red-500">A paragraph using Tailwind to be extra large</p>
-      <h1 class="text-red-500">A heading using Tailwind to be RED</h1>
-    </div>
-    <div class="bg-red-200 hover:bg-red-300 min-h-16 max-w-fit p-8">
-      <h1>Hello, there</h1>
-    </div>
-    <details>
-      <summary>A details section</summary>
-      <p class="pl-4 pt-2 pb-2">A paragraph within the details section</p>
-    </details>
-    <p>A paragraph after the details section</p>
+    <h1>Shoelace Drawer</h1>
+    @Drawer()
+    <h1>TemplUI Drawer</h1>
+    @templui.Drawer(templui.DrawerProps{})
+    <h1>Shoelace Stuff</h1>
+    <sl-button size="large">Click me</sl-button>
+    <sl-avatar label="User avatar"></sl-avatar>
+    <sl-details summary="Toggle Me">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </sl-details>
   }
+}
+
+templ Drawer() {
+  <sl-drawer label="Drawer" placement="bottom" class="drawer-placement-start">
+    This drawer slides in from the start.
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+  </sl-drawer>
+
+  <sl-button>Open Drawer</sl-button>
+
+  <script>
+    const drawer = document.querySelector('.drawer-placement-start');
+    const openButton = drawer.nextElementSibling;
+    const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+
+    openButton.addEventListener('click', () => drawer.show());
+    closeButton.addEventListener('click', () => drawer.hide());
+  </script>
 }
