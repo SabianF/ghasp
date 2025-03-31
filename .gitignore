@@ -28,6 +28,9 @@ go.work.sum
 tailwind-run.sh
 assets/css/tailwind.css
 
+# Templ related files
+**/*_templ.go
+
 # Custom scripts
 run.sh
 build-tailwind.sh

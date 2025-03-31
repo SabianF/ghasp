@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	components "github.com/SabianF/ghasp/assets/templ"
+	components "github.com/SabianF/ghasp/src/components"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
