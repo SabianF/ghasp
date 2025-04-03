@@ -1,26 +1,715 @@
 package components
 
-import (
-  templui "github.com/axzilla/templui/components"
-)
-
 templ RootPage() {
   @Layout() {
-    <h1>Shoelace Drawer</h1>
-    @Drawer()
-    <h1>TemplUI Drawer</h1>
-    @templui.Drawer(templui.DrawerProps{})
-    <h1>Shoelace Stuff</h1>
-    <sl-button size="large">Click me</sl-button>
-    <sl-avatar label="User avatar"></sl-avatar>
-    <sl-details summary="Toggle Me">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </sl-details>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/components/tab/tab.js"></script>
+    <sl-tab-group placement="start">
+      <sl-tab slot="nav" panel="test">Test Page</sl-tab>
+      <sl-tab slot="nav" panel="other">Other</sl-tab>
+
+      <sl-tab-panel name="test">@TestPage()</sl-tab-panel>
+      <sl-tab-panel name="other">@Other()</sl-tab-panel>
+    </sl-tab-group>
   }
 }
 
+templ Other() {
+  <main class="container">
+    <h1>Here is the other page</h1>
+    <p>Lalala lalalalala lalala lalalalala</p>
+  </main>
+}
+
+templ TestPage() {
+  <div id="top" role="document" class="grid">
+    <article>
+      <header class="container">
+        <h1>HTML5 Test Page</h1>
+        <p>This is a test page filled with common HTML elements to be used to provide visual feedback whilst building CSS systems and frameworks.</p>
+      </header>
+      <nav>
+        <ul>
+          <li>
+            <a href="#text">Text</a>
+            <ul>
+              <li><a href="#text__headings">Headings</a></li>
+              <li><a href="#text__paragraphs">Paragraphs</a></li>
+              <li><a href="#text__lists">Lists</a></li>
+              <li><a href="#text__blockquotes">Blockquotes</a></li>
+              <li><a href="#text__details">Details / Summary</a></li>
+              <li><a href="#text__address">Address</a></li>
+              <li><a href="#text__hr">Horizontal rules</a></li>
+              <li><a href="#text__tables">Tabular data</a></li>
+              <li><a href="#text__code">Code</a></li>
+              <li><a href="#text__inline">Inline elements</a></li>
+              <li><a href="#text__comments">HTML Comments</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#embedded">Embedded content</a>
+            <ul>
+              <li><a href="#embedded__images">Images</a></li>
+              <li><a href="#embedded__bgimages">Background images</a></li>
+              <li><a href="#embedded__audio">Audio</a></li>
+              <li><a href="#embedded__video">Video</a></li>
+              <li><a href="#embedded__canvas">Canvas</a></li>
+              <li><a href="#embedded__meter">Meter</a></li>
+              <li><a href="#embedded__progress">Progress</a></li>
+              <li><a href="#embedded__svg">Inline SVG</a></li>
+              <li><a href="#embedded__iframe">IFrames</a></li>
+              <li><a href="#embedded__embed">Embed</a></li>
+              <li><a href="#embedded__object">Object</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#forms">Form elements</a>
+            <ul>
+              <li><a href="#forms__input">Input fields</a></li>
+              <li><a href="#forms__select">Select menus</a></li>
+              <li><a href="#forms__checkbox">Checkboxes</a></li>
+              <li><a href="#forms__radio">Radio buttons</a></li>
+              <li><a href="#forms__textareas">Textareas</a></li>
+              <li><a href="#forms__html5">HTML5 inputs</a></li>
+              <li><a href="#forms__action">Action buttons</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <main>
+        <section id="text">
+          <header><h1>Text</h1></header>
+          <article id="text__headings">
+            <header>
+              <h2>Headings</h2>
+            </header>
+            <div>
+              <h1>Heading 1</h1>
+              <h2>Heading 2</h2>
+              <h3>Heading 3</h3>
+              <h4>Heading 4</h4>
+              <h5>Heading 5</h5>
+              <h6>Heading 6</h6>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__paragraphs">
+            <header><h2>Paragraphs</h2></header>
+            <div>
+              <p>A paragraph (from the Greek paragraphos, “to write beside” or “written beside”) is a self-contained unit of a discourse in writing dealing with a particular point or idea. A paragraph consists of one or more sentences. Though not required by the syntax of any language, paragraphs are usually an expected part of formal writing, used to organize longer prose.</p>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__blockquotes">
+            <header><h2>Blockquotes</h2></header>
+            <div>
+              <blockquote>
+                <p>A block quotation (also known as a long quotation or extract) is a quotation in a written document, that is set off from the main text as a paragraph, or block of text.</p>
+                <p>It is typically distinguished visually using indentation and a different typeface or smaller size quotation. It may or may not include a citation, usually placed at the bottom.</p>
+                <cite><a href="#!">Said no one, ever.</a></cite>
+              </blockquote>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__lists">
+            <header><h2>Lists</h2></header>
+            <div>
+              <h3>Definition list</h3>
+              <dl>
+                <dt>Definition List Title</dt>
+                <dd>This is a definition list division.</dd>
+              </dl>
+              <h3>Ordered List</h3>
+              <ol type="1">
+                <li>List Item 1</li>
+                <li>
+                  List Item 2
+                  <ol type="A">
+                    <li>List Item 1</li>
+                    <li>
+                      List Item 2
+                      <ol type="a">
+                        <li>List Item 1</li>
+                        <li>
+                          List Item 2
+                          <ol type="I">
+                            <li>List Item 1</li>
+                            <li>
+                              List Item 2
+                              <ol type="i">
+                                <li>List Item 1</li>
+                                <li>List Item 2</li>
+                                <li>List Item 3</li>
+                              </ol>
+                            </li>
+                            <li>List Item 3</li>
+                          </ol>
+                        </li>
+                        <li>List Item 3</li>
+                      </ol>
+                    </li>
+                    <li>List Item 3</li>
+                  </ol>
+                </li>
+                <li>List Item 3</li>
+              </ol>
+              <h3>Unordered List</h3>
+              <ul>
+                <li>List Item 1</li>
+                <li>
+                  List Item 2
+                  <ul>
+                    <li>List Item 1</li>
+                    <li>
+                      List Item 2
+                      <ul>
+                        <li>List Item 1</li>
+                        <li>
+                          List Item 2
+                          <ul>
+                            <li>List Item 1</li>
+                            <li>
+                              List Item 2
+                              <ul>
+                                <li>List Item 1</li>
+                                <li>List Item 2</li>
+                                <li>List Item 3</li>
+                              </ul>
+                            </li>
+                            <li>List Item 3</li>
+                          </ul>
+                        </li>
+                        <li>List Item 3</li>
+                      </ul>
+                    </li>
+                    <li>List Item 3</li>
+                  </ul>
+                </li>
+                <li>List Item 3</li>
+              </ul>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__blockquotes">
+            <header><h1>Blockquotes</h1></header>
+            <div>
+              <blockquote>
+                <p>A block quotation (also known as a long quotation or extract) is a quotation in a written document, that is set off from the main text as a paragraph, or block of text.</p>
+                <p>It is typically distinguished visually using indentation and a different typeface or smaller size quotation. It may or may not include a citation, usually placed at the bottom.</p>
+                <cite><a href="#!">Said no one, ever.</a></cite>
+              </blockquote>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__details">
+            <header><h1>Details / Summary</h1></header>
+            <details>
+              <summary>Expand for details</summary>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, odio! Odio natus ullam ad quaerat, eaque necessitatibus, aliquid distinctio similique voluptatibus dicta consequuntur animi. Quaerat facilis quidem unde eos! Ipsa.</p>
+            </details>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__address">
+            <header><h1>Address</h1></header>
+            <address>
+              Written by <a href="mailto:webmaster@example.com">Jon Doe</a>.<br>
+              Visit us at:<br>
+              Example.com<br>
+              Box 564, Disneyland<br>
+              USA
+            </address>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__hr">
+            <header><h2>Horizontal rules</h2></header>
+            <div>
+              <hr>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__tables">
+            <header><h2>Tabular data</h2></header>
+            <table>
+              <caption>Table Caption</caption>
+              <thead>
+                <tr>
+                  <th>Table Heading 1</th>
+                  <th>Table Heading 2</th>
+                  <th>Table Heading 3</th>
+                  <th>Table Heading 4</th>
+                  <th>Table Heading 5</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Table Footer 1</th>
+                  <th>Table Footer 2</th>
+                  <th>Table Footer 3</th>
+                  <th>Table Footer 4</th>
+                  <th>Table Footer 5</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr>
+                  <td>Table Cell 1</td>
+                  <td>Table Cell 2</td>
+                  <td>Table Cell 3</td>
+                  <td>Table Cell 4</td>
+                  <td>Table Cell 5</td>
+                </tr>
+                <tr>
+                  <td>Table Cell 1</td>
+                  <td>Table Cell 2</td>
+                  <td>Table Cell 3</td>
+                  <td>Table Cell 4</td>
+                  <td>Table Cell 5</td>
+                </tr>
+                <tr>
+                  <td>Table Cell 1</td>
+                  <td>Table Cell 2</td>
+                  <td>Table Cell 3</td>
+                  <td>Table Cell 4</td>
+                  <td>Table Cell 5</td>
+                </tr>
+                <tr>
+                  <td>Table Cell 1</td>
+                  <td>Table Cell 2</td>
+                  <td>Table Cell 3</td>
+                  <td>Table Cell 4</td>
+                  <td>Table Cell 5</td>
+                </tr>
+              </tbody>
+            </table>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__code">
+            <header><h2>Code</h2></header>
+            <div>
+              <p><strong>Keyboard input:</strong> <kbd>Cmd</kbd></p>
+              <p><strong>Inline code:</strong> <code>&lt;div&gt;code&lt;/div&gt;</code></p>
+              <p><strong>Sample output:</strong> <samp>This is sample output from a computer program.</samp></p>
+              <h2>Pre-formatted text</h2>
+              <pre>
+                P R E F O R M A T T E D T E X T
+                ! " # $ % &amp; ' ( ) * + , - . /
+                0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ?
+                { "@" } A B C D E F G H I J K L M N O
+                P Q R S T U V W X Y Z [ \ ] ^ _
+                ` a b c d e f g h i j k l m n o
+                p q r s t u v w x y z { "{" } | { "}" } ~
+              </pre>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__inline">
+            <header><h2>Inline elements</h2></header>
+            <div>
+              <p><a href="#!">This is a text link</a>.</p>
+              <p><strong>Strong is used to indicate strong importance.</strong></p>
+              <p><em>This text has added emphasis.</em></p>
+              <p>The <b>b element</b> is stylistically different text from normal text, without any special importance.</p>
+              <p>The <i>i element</i> is text that is offset from the normal text.</p>
+              <p>The <u>u element</u> is text with an unarticulated, though explicitly rendered, non-textual annotation.</p>
+              <p><del>This text is deleted</del> and <ins>This text is inserted</ins>.</p>
+              <p><s>This text has a strikethrough</s>.</p>
+              <p>Superscript<sup>®</sup>.</p>
+              <p>Subscript for things like H<sub>2</sub>O.</p>
+              <p><small>This small text is small for fine print, etc.</small></p>
+              <p>Abbreviation: <abbr title="HyperText Markup Language">HTML</abbr></p>
+              <p><q cite="https://developer.mozilla.org/en-US/docs/HTML/Element/q">This text is a short inline quotation.</q></p>
+              <p><cite>This is a citation.</cite></p>
+              <p>The <dfn>dfn element</dfn> indicates a definition.</p>
+              <p>The <mark>mark element</mark> indicates a highlight.</p>
+              <p>The <var>variable element</var>, such as <var>x</var> = <var>y</var>.</p>
+              <p>The time element: <time datetime="2013-04-06T12:32+00:00">2 weeks ago</time></p>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="text__comments">
+            <header><h2>HTML Comments</h2></header>
+            <div>
+              <p>There is comment here: <!--This comment should not be displayed--></p>
+              <p>There is a comment spanning multiple tags and lines below here.</p>
+              <!--<p><a href="#!">This is a text link. But it should not be displayed in a comment</a>.</p>
+                <p><strong>Strong is used to indicate strong importance. But, it should not be displayed in a comment</strong></p>
+                <p><em>This text has added emphasis. But, it should not be displayed in a comment</em></p>-->
+            </div>
+          </article>
+        </section>
+        <section id="embedded">
+          <header><h2>Embedded content</h2></header>
+          <article id="embedded__images">
+            <header><h2>Images</h2></header>
+            <div>
+              <h3>Plain <code>&lt;img&gt;</code> element</h3>
+              <p><img src="https://thispersondoesnotexist.com" alt="Photo of a kitten"></p>
+              <h3><code>&lt;figure&gt;</code> element with <code>&lt;img&gt;</code> element</h3>
+              <figure><img src="https://thispersondoesnotexist.com" alt="Photo of a kitten"></figure>
+              <h3><code>&lt;figure&gt;</code> element with <code>&lt;img&gt;</code> and <code>&lt;figcaption&gt;</code> elements</h3>
+              <figure>
+                <img src="https://thispersondoesnotexist.com" alt="Photo of a kitten">
+                <figcaption>Here is a caption for this image.</figcaption>
+              </figure>
+              <h3><code>&lt;figure&gt;</code> element with a <code>&lt;picture&gt;</code> element</h3>
+              <figure>
+                <picture>
+                  <source srcset="https://thispersondoesnotexist.com"
+                    media="(min-width: 800px)">
+                  <img src="https://thispersondoesnotexist.com" alt="Photo of a kitten" />
+                </picture>
+              </figure>
+            </div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__bgimages">
+            <header><h2>Background images</h2></header>
+            <div style="background-image:url('https://thispersondoesnotexist.com'); width:300px; height: 300px;"></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__audio">
+            <header><h2>Audio</h2></header>
+            <div><audio controls="">audio</audio></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__video">
+            <header><h2>Video</h2></header>
+            <div><video controls="">video</video></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__canvas">
+            <header><h2>Canvas</h2></header>
+            <div><canvas>canvas</canvas></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__meter">
+            <header><h2>Meter</h2></header>
+            <div><meter value="2" min="0" max="10">2 out of 10</meter></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__progress">
+            <header><h2>Progress</h2></header>
+            <div><progress>progress</progress></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__svg">
+            <header><h2>Inline SVG</h2></header>
+            <div><svg width="100px" height="100px"><circle cx="100" cy="100" r="100" fill="#1fa3ec"></circle></svg></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__iframe">
+            <header><h2>IFrame</h2></header>
+            <div><iframe src="index.html" height="300"></iframe></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__embed">
+            <header><h2>Embed</h2></header>
+            <div><embed src="index.html" height="300"></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+          <article id="embedded__object">
+            <header><h2>Object</h2></header>
+            <div><object data="index.html" height="300"></object></div>
+            <footer><p><a href="#top">[Top]</a></p></footer>
+          </article>
+        </section>
+        <section id="forms">
+          <header><h2>Form elements</h2></header>
+          <form>
+            <fieldset id="forms__input">
+              <legend>Input fields</legend>
+              <p>
+                <label for="input__text">Text Input</label>
+                <input id="input__text" type="text" placeholder="Text Input">
+              </p>
+              <p>
+                <label for="input__password">Password</label>
+                <input id="input__password" type="password" placeholder="Type your Password">
+              </p>
+              <p>
+                <label for="input__webaddress">Web Address</label>
+                <input id="input__webaddress" type="url" placeholder="https://yoursite.com">
+              </p>
+              <p>
+                <label for="input__emailaddress">Email Address</label>
+                <input id="input__emailaddress" type="email" placeholder="name@email.com">
+              </p>
+              <p>
+                <label for="input__phone">Phone Number</label>
+                <input id="input__phone" type="tel" placeholder="(999) 999-9999">
+              </p>
+              <p>
+                <label for="input__search">Search</label>
+                <input id="input__search" type="search" placeholder="Enter Search Term">
+              </p>
+              <p>
+                <label for="input__text2">Number Input</label>
+                <input id="input__text2" type="number" placeholder="Enter a Number">
+              </p>
+              <p>
+                <label for="input__file">File Input</label>
+                <input id="input__file" type="file">
+              </p>
+            </fieldset>
+            <p><a href="#top">[Top]</a></p>
+            <fieldset id="forms__select">
+              <legend>Select menus</legend>
+              <p>
+                <label for="select">Select</label>
+                <select id="select">
+                  <optgroup label="Option Group">
+                    <option>Option One</option>
+                    <option>Option Two</option>
+                    <option>Option Three</option>
+                  </optgroup>
+                </select>
+              </p>
+              <p>
+                <label for="select_multiple">Select (multiple)</label>
+                <select id="select_multiple" multiple="multiple">
+                  <optgroup label="Option Group">
+                    <option>Option One</option>
+                    <option>Option Two</option>
+                    <option>Option Three</option>
+                  </optgroup>
+                </select>
+              </p>
+            </fieldset>
+            <p><a href="#top">[Top]</a></p>
+            <fieldset id="forms__checkbox">
+              <legend>Checkboxes</legend>
+              <ul>
+                <li><label for="checkbox1"><input id="checkbox1" name="checkbox" type="checkbox" checked="checked"> Choice A</label></li>
+                <li><label for="checkbox2"><input id="checkbox2" name="checkbox" type="checkbox"> Choice B</label></li>
+                <li><label for="checkbox3"><input id="checkbox3" name="checkbox" type="checkbox"> Choice C</label></li>
+              </ul>
+            </fieldset>
+            <p><a href="#top">[Top]</a></p>
+            <fieldset id="forms__radio">
+              <legend>Radio buttons</legend>
+              <ul>
+                <li><label for="radio1"><input id="radio1" name="radio" type="radio" checked="checked"> Option 1</label></li>
+                <li><label for="radio2"><input id="radio2" name="radio" type="radio"> Option 2</label></li>
+                <li><label for="radio3"><input id="radio3" name="radio" type="radio"> Option 3</label></li>
+              </ul>
+            </fieldset>
+            <p><a href="#top">[Top]</a></p>
+            <fieldset id="forms__textareas">
+              <legend>Textareas</legend>
+              <p>
+                <label for="textarea">Textarea</label>
+                <textarea id="textarea" rows="8" cols="48" placeholder="Enter your message here"></textarea>
+              </p>
+            </fieldset>
+            <p><a href="#top">[Top]</a></p>
+            <fieldset id="forms__html5">
+              <legend>HTML5 inputs</legend>
+              <p>
+                <label for="ic">Color input</label>
+                <input type="color" id="ic" value="#000000">
+              </p>
+              <p>
+                <label for="in">Number input</label>
+                <input type="number" id="in" min="0" max="10" value="5">
+              </p>
+              <p>
+                <label for="ir">Range input</label>
+                <input type="range" id="ir" value="10">
+              </p>
+              <p>
+                <label for="idd">Date input</label>
+                <input type="date" id="idd" value="1970-01-01">
+              </p>
+              <p>
+                <label for="idm">Month input</label>
+                <input type="month" id="idm" value="1970-01">
+              </p>
+              <p>
+                <label for="idw">Week input</label>
+                <input type="week" id="idw" value="1970-W01">
+              </p>
+              <p>
+                <label for="idt">Datetime input</label>
+                <input type="datetime" id="idt" value="1970-01-01T00:00:00Z">
+              </p>
+              <p>
+                <label for="idtl">Datetime-local input</label>
+                <input type="datetime-local" id="idtl" value="1970-01-01T00:00">
+              </p>
+              <p>
+                <label for="idl">Datalist</label>
+                <input type="text" id="idl" list="example-list">
+                <datalist id="example-list">
+                  <option value="Example #1" />
+                  <option value="Example #2" />
+                  <option value="Example #3" />
+                </datalist>
+              </p>
+            </fieldset>
+            <p><a href="#top">[Top]</a></p>
+            <fieldset id="forms__action">
+              <legend>Action buttons</legend>
+              <p>
+                <input type="submit" value="<input type=submit>">
+                <input type="button" value="<input type=button>">
+                <input type="reset" value="<input type=reset>">
+                <input type="submit" value="<input disabled>" disabled>
+              </p>
+              <p>
+                <button type="submit">&lt;button type=submit&gt;</button>
+                <button type="button">&lt;button type=button&gt;</button>
+                <button type="reset">&lt;button type=reset&gt;</button>
+                <button type="button" disabled>&lt;button disabled&gt;</button>
+              </p>
+            </fieldset>
+            <p><a href="#top">[Top]</a></p>
+          </form>
+        </section>
+      </main>
+      <footer>
+        <p>Made by <a href="http://twitter.com/cbracco">{ "@" }cbracco</a>. Code on <a href="http://github.com/cbracco/html5-test-page">GitHub</a>.</p>
+      </footer>
+    </article>
+    <article>
+      <h1>Shoelace web components</h1>
+      @Drawer()
+      @Dialog()
+      @AlertsWithIcons()
+      @ButtonGroup()
+      @Carousel()
+      @Details()
+      @Dropdown()
+      @Switch()
+    </article>
+  </div>
+}
+
+templ Switch() {
+  <p>Switch</p>
+  <sl-switch>Switch</sl-switch>
+}
+
+templ Dropdown() {
+  <p>Dropdown</p>
+  <sl-dropdown>
+    <sl-button slot="trigger" caret>Dropdown</sl-button>
+    <sl-menu>
+      <sl-menu-item>Dropdown Item 1</sl-menu-item>
+      <sl-menu-item>Dropdown Item 2</sl-menu-item>
+      <sl-menu-item>Dropdown Item 3</sl-menu-item>
+      <sl-divider></sl-divider>
+      <sl-menu-item type="checkbox" checked>Checkbox</sl-menu-item>
+      <sl-menu-item disabled>Disabled</sl-menu-item>
+      <sl-divider></sl-divider>
+      <sl-menu-item>
+        Prefix
+        <sl-icon slot="prefix" name="gift"></sl-icon>
+      </sl-menu-item>
+      <sl-menu-item>
+        Suffix Icon
+        <sl-icon slot="suffix" name="heart"></sl-icon>
+      </sl-menu-item>
+    </sl-menu>
+  </sl-dropdown>
+}
+
+templ Details() {
+  <p>Details (Toggle)</p>
+  <sl-details summary="Toggle Me">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  </sl-details>
+}
+
+templ Carousel() {
+  <p>Carousel</p>
+  <sl-carousel pagination navigation mouse-dragging loop>
+    <sl-carousel-item>
+      <img
+        alt="The sun shines on the mountains and trees (by Adam Kool on Unsplash)"
+        src="https://thispersondoesnotexist.com"
+      />
+    </sl-carousel-item>
+    <sl-carousel-item>
+      <img
+        alt="A waterfall in the middle of a forest (by Thomas Kelly on Unsplash)"
+        src="https://thispersondoesnotexist.com"
+      />
+    </sl-carousel-item>
+    <sl-carousel-item>
+      <img
+        alt="The sun is setting over a lavender field (by Leonard Cotte on Unsplash)"
+        src="https://thispersondoesnotexist.com"
+      />
+    </sl-carousel-item>
+    <sl-carousel-item>
+      <img
+        alt="A field of grass with the sun setting in the background (by Sapan Patel on Unsplash)"
+        src="https://thispersondoesnotexist.com"
+      />
+    </sl-carousel-item>
+    <sl-carousel-item>
+      <img
+        alt="A scenic view of a mountain with clouds rolling in (by V2osk on Unsplash)"
+        src="https://thispersondoesnotexist.com"
+      />
+    </sl-carousel-item>
+  </sl-carousel>
+}
+
+templ ButtonGroup() {
+  <p>Button group</p>
+
+  <sl-button-group label="Alignment">
+    <sl-button size="large">Left</sl-button>
+    <sl-button size="large">Center</sl-button>
+    <sl-button size="large">Right</sl-button>
+  </sl-button-group>
+}
+
+templ AlertsWithIcons() {
+  <p>Alerts with Icons</p>
+
+  <sl-alert variant="primary" open>
+    <sl-icon slot="icon" name="info-circle"></sl-icon>
+    <strong>This is super informative</strong><br />
+    You can tell by how pretty the alert is.
+  </sl-alert>
+
+  <br />
+
+  <sl-alert variant="success" open>
+    <sl-icon slot="icon" name="check2-circle"></sl-icon>
+    <strong>Your changes have been saved</strong><br />
+    You can safely exit the app now.
+  </sl-alert>
+
+  <br />
+
+  <sl-alert variant="neutral" open>
+    <sl-icon slot="icon" name="gear"></sl-icon>
+    <strong>Your settings have been updated</strong><br />
+    Settings will take effect on next login.
+  </sl-alert>
+
+  <br />
+
+  <sl-alert variant="warning" open>
+    <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+    <strong>Your session has ended</strong><br />
+    Please login again to continue.
+  </sl-alert>
+
+  <br />
+
+  <sl-alert variant="danger" open>
+    <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+    <strong>Your account has been deleted</strong><br />
+    We're very sorry to see you go!
+  </sl-alert>
+}
+
 templ Drawer() {
+  <p>Drawer</p>
+
   <sl-drawer label="Drawer" placement="bottom" class="drawer-placement-start">
     This drawer slides in from the start.
     <sl-button slot="footer" variant="primary">Close</sl-button>
@@ -35,5 +724,26 @@ templ Drawer() {
 
     openButton.addEventListener('click', () => drawer.show());
     closeButton.addEventListener('click', () => drawer.hide());
+  </script>
+}
+
+templ Dialog() {
+  <p>Dialog (Modal)</p>
+
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/components/dialog/dialog.js"></script>
+  <sl-dialog label="Dialog" class="dialog-overview">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+  </sl-dialog>
+
+  <sl-button>Open Dialog</sl-button>
+
+  <script>
+    const dialog = document.querySelector('.dialog-overview');
+    const openButton = dialog.nextElementSibling;
+    const closeButton = dialog.querySelector('sl-button[slot="footer"]');
+
+    openButton.addEventListener('click', () => dialog.show());
+    closeButton.addEventListener('click', () => dialog.hide());
   </script>
 }

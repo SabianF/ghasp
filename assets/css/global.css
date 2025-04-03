@@ -1,0 +1,9 @@
+nav {
+  width: 100%;
+  display: grid;
+}
+
+.container {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
