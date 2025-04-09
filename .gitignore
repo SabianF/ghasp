@@ -31,6 +31,9 @@ assets/css/tailwind.css
 # Templ related files
 **/*_templ.go
 
+# Air related files
+tmp/
+
 # Custom scripts
 run.sh
 build-tailwind.sh

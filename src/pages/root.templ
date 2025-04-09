@@ -3,7 +3,7 @@ package pages
 import components "github.com/SabianF/ghasp/src/components"
 import tabs "github.com/SabianF/ghasp/src/components/tabs"
 
-templ RootPage() {
+templ RootPage(tableProps components.TableProps) {
   @components.Layout() {
     <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/components/tab/tab.js"></script>
     <sl-tab-group placement="start">
@@ -11,7 +11,7 @@ templ RootPage() {
       <sl-tab slot="nav" panel="other">Other</sl-tab>
 
       <sl-tab-panel name="test">@tabs.Test()</sl-tab-panel>
-      <sl-tab-panel name="other">@tabs.Other()</sl-tab-panel>
+      <sl-tab-panel name="other">@tabs.Other(tableProps)</sl-tab-panel>
     </sl-tab-group>
   }
 }

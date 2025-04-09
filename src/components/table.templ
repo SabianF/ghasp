@@ -1,0 +1,36 @@
+package components
+
+type TableProps struct {
+  Headings []string
+  RowsAndColumns [][]string
+  Footers []string
+}
+templ Table(props TableProps) {
+  <table>
+    <thead>
+      <tr>
+        for _, heading := range props.Headings {
+          <th>{ heading }</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      for _, row := range props.RowsAndColumns {
+        <tr>
+          for _, column := range row {
+            <td>{ column }</td>
+          }
+        </tr>
+      }
+    </tbody>
+    if props.Footers != nil {
+      <tfoot>
+        <tr>
+          for _, footer := range props.Footers {
+            <td>{ footer }</td>
+          }
+        </tr>
+      </tfoot>
+    }
+  </table>
+}

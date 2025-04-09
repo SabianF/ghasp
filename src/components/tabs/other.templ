@@ -1,8 +1,11 @@
 package components
 
-templ Other() {
+import "github.com/SabianF/ghasp/src/components"
+
+templ Other(tableProps components.TableProps) {
   <main class="container">
     <h1>Here is the other page</h1>
     <p>Lalala lalalalala lalala lalalalala</p>
+    @components.Table(tableProps)
   </main>
 }

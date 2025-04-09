@@ -12,11 +12,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/SabianF/ghasp/src/components"
 	"github.com/SabianF/ghasp/src/pages"
 
-	_ "github.com/lib/pq"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 //? GHASP Stack
@@ -133,7 +134,32 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-	rootPageComponent := pages.RootPage()
+
+	tablePropsHeadings := []string{
+		"1 heading 1",
+		"2 heading 2",
+		"3 heading 3",
+	}
+
+	tablePropsRowsAndData := [][]string{
+		{"aaa", "bbb", "ccc"},
+		{"ddd", "eee", "fff"},
+		{"ggg", "hhh", "iii"},
+	}
+
+	tablePropsFooters := []string{
+		"1 footer 1",
+		"2 footer 2",
+		"3 footer 3",
+	}
+
+	tableProps := components.TableProps{
+		Headings: tablePropsHeadings,
+		RowsAndColumns: tablePropsRowsAndData,
+		Footers: tablePropsFooters,
+	}
+
+	rootPageComponent := pages.RootPage(tableProps)
 
 	err := rootPageComponent.Render(r.Context(), w)
 	if (err != nil) {
