@@ -1,12 +1,13 @@
 package components
 
 type TableProps struct {
+  Page string
   Headings []string
   RowsAndColumns [][]string
   Footers []string
 }
 templ Table(props TableProps) {
-  <table>
+  <table id="the-table">
     <thead>
       <tr>
         for _, heading := range props.Headings {
@@ -29,6 +30,11 @@ templ Table(props TableProps) {
           for _, footer := range props.Footers {
             <td>{ footer }</td>
           }
+        </tr>
+        <tr>
+          <td>
+            @TableLoadButton(props.Page)
+          </td>
         </tr>
       </tfoot>
     }

@@ -1,0 +1,19 @@
+package components
+
+type TableDataProps struct {
+  Page string
+  RowsAndColumns [][]string
+}
+
+templ TableData(props TableDataProps) {
+  <tbody hx-swap-oob="beforeend:#the-table > tbody">
+    for _, row := range props.RowsAndColumns {
+      <tr>
+        for _, column := range row {
+          <td>{ column }</td>
+        }
+      </tr>
+    }
+  </tbody>
+  @TableLoadButton(props.Page)
+}

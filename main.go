@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -26,6 +27,20 @@ import (
 //? - AlpineJS (Front-end interactivity)
 //? - Shoelace (UI component library) (TailwindCSS)
 //? - PostgreSQL (Database)
+
+
+
+var tablePropsHeadings = []string{
+	"1 heading 1",
+	"2 heading 2",
+	"3 heading 3",
+}
+
+var tablePropsFooters = []string{
+	"1 footer 1",
+	"2 footer 2",
+	"3 footer 3",
+}
 
 func main() {
 	handleSigTerm()
@@ -87,7 +102,7 @@ func initDb() {
 		log.Fatal("Failed to establish connection to DB: ", err)
 	}
 
-	log.Printf("Successfully opened DB connection: %d", db.Stats().OpenConnections)
+	log.Printf("Successfully opened DB connection: %d\n", db.Stats().OpenConnections)
 }
 
 // Allows graceful shutdown
@@ -104,6 +119,7 @@ func handleSigTerm() {
 func initRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", handleRoot)
+	router.HandleFunc("/db", handleDb)
 	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
 	http.Handle("/", router)
@@ -127,33 +143,17 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			currentTime := time.Now().Format(time.RFC3339Nano)
-			log.Printf("%s %s %s (%s)", currentTime, r.Method, r.RequestURI, r.RemoteAddr)
+			log.Printf("%s %s %s (%s)\n", currentTime, r.Method, r.RequestURI, r.RemoteAddr)
 			next.ServeHTTP(w, r)
 		},
 	)
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-
-	tablePropsHeadings := []string{
-		"1 heading 1",
-		"2 heading 2",
-		"3 heading 3",
-	}
-
-	tablePropsRowsAndData := [][]string{
-		{"aaa", "bbb", "ccc"},
-		{"ddd", "eee", "fff"},
-		{"ggg", "hhh", "iii"},
-	}
-
-	tablePropsFooters := []string{
-		"1 footer 1",
-		"2 footer 2",
-		"3 footer 3",
-	}
+	tablePropsRowsAndData := generateTableData(1, 10, 3)
 
 	tableProps := components.TableProps{
+		Page: "1",
 		Headings: tablePropsHeadings,
 		RowsAndColumns: tablePropsRowsAndData,
 		Footers: tablePropsFooters,
@@ -165,6 +165,50 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 	if (err != nil) {
 		log.Fatalf("Failed to render component: %v\n", err)
 	}
+}
+
+func handleDb(w http.ResponseWriter, r *http.Request) {
+	page := r.Header.Get("table-page")
+
+	pageInt, err := strconv.Atoi(page)
+	if (err != nil) {
+		log.Printf("Invalid table-page: [%v]. Using default page.\n", page)
+		pageInt = 0
+	}
+
+	pageInt += 1
+	page = strconv.Itoa(pageInt)
+	tableData := generateTableData(pageInt, 10, 3)
+
+	tableDataProps := components.TableDataProps{
+		Page: page,
+		RowsAndColumns: tableData,
+	}
+
+	tableDataComponent := components.TableData(tableDataProps)
+
+	tableDataComponent.Render(r.Context(), w)
+}
+
+func generateTableData(page int, numRows int, numColumns int) [][]string {
+	result := [][]string{}
+
+	for row := 0; row < numRows; row++ {
+		newColumn := []string{}
+
+		for column := 0; column < numColumns; column++ {
+			newColumnData := fmt.Sprintf(
+				"row %d, column %d",
+				row + ((page - 1) * numRows) + 1,
+				column + 1,
+			)
+			newColumn = append(newColumn, newColumnData)
+		}
+
+		result = append(result, newColumn)
+	}
+
+	return result
 }
 
 func listenAndServe(router *mux.Router) {

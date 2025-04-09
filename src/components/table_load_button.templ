@@ -1,0 +1,12 @@
+package components
+
+import "fmt"
+
+templ TableLoadButton(page string) {
+  <button
+    id="table-load-button"
+    hx-get="/db"
+    hx-headers={ fmt.Sprintf("{\"table-page\": %s}", page) }
+    hx-swap-oob="outerHTML:#table-load-button"
+  >Load more</button>
+}
