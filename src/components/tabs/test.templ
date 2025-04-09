@@ -1,26 +1,6 @@
 package components
 
-templ RootPage() {
-  @Layout() {
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/components/tab/tab.js"></script>
-    <sl-tab-group placement="start">
-      <sl-tab slot="nav" panel="test">Test Page</sl-tab>
-      <sl-tab slot="nav" panel="other">Other</sl-tab>
-
-      <sl-tab-panel name="test">@TestPage()</sl-tab-panel>
-      <sl-tab-panel name="other">@Other()</sl-tab-panel>
-    </sl-tab-group>
-  }
-}
-
-templ Other() {
-  <main class="container">
-    <h1>Here is the other page</h1>
-    <p>Lalala lalalalala lalala lalalalala</p>
-  </main>
-}
-
-templ TestPage() {
+templ Test() {
   <div id="top" role="document" class="grid">
     <article>
       <header class="container">

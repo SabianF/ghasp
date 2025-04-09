@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	components "github.com/SabianF/ghasp/src/components"
+	"github.com/SabianF/ghasp/src/pages"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -81,7 +81,7 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-	rootPageComponent := components.RootPage()
+	rootPageComponent := pages.RootPage()
 
 	err := rootPageComponent.Render(r.Context(), w)
 	if (err != nil) {
