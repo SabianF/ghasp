@@ -10,6 +10,8 @@ require (
 	github.com/joho/godotenv v1.5.1
 )
 
+require github.com/lib/pq v1.10.9 // indirect
+
 require (
 	github.com/Oudwins/tailwind-merge-go v0.2.0 // indirect
 	github.com/axzilla/templui v0.43.0
