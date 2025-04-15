@@ -1,7 +1,7 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"errors"
 	"flag"
 	"fmt"
@@ -14,11 +14,12 @@ import (
 	"time"
 
 	"github.com/SabianF/ghasp/src/components"
+	"github.com/SabianF/ghasp/src/models"
 	"github.com/SabianF/ghasp/src/pages"
 
 	"github.com/gorilla/mux"
+	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
 )
 
 //? GHASP Stack
@@ -91,18 +92,20 @@ func initDb() {
     host, port, user, pass, name,
 	)
 
-	db, err := sql.Open("postgres", dataSource)
+	db, err := pgx.Connect(context.Background(), dataSource)
 	if (err != nil) {
 		log.Fatal("Failed to open DB: ", err)
 	}
-	defer db.Close()
+	defer db.Close(context.Background())
 
-	err = db.Ping()
+	err = db.Ping(context.Background())
 	if (err != nil) {
 		log.Fatal("Failed to establish connection to DB: ", err)
 	}
 
-	log.Printf("Successfully opened DB connection: %d\n", db.Stats().OpenConnections)
+	log.Printf("Successfully opened DB connection: %s\n", db.Config().Database)
+
+	models.CreateUserTable(db)
 }
 
 // Allows graceful shutdown
