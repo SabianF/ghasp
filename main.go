@@ -13,9 +13,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/SabianF/ghasp/src/components"
-	"github.com/SabianF/ghasp/src/models"
-	"github.com/SabianF/ghasp/src/pages"
+	"github.com/SabianF/ghasp/src/common/presentation/components"
+	"github.com/SabianF/ghasp/src/common/data/models"
+	"github.com/SabianF/ghasp/src/common/presentation/pages"
 
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v5"
