@@ -12,6 +12,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/SabianF/ghasp/src/common/data/models"
 	db_postgres "github.com/SabianF/ghasp/src/common/data/sources"
 	"github.com/SabianF/ghasp/src/common/presentation/components"
 	"github.com/SabianF/ghasp/src/common/presentation/pages"
@@ -44,7 +45,9 @@ var tablePropsFooters = []string{
 func main() {
 	handleSigTerm()
 	loadEnvironmentVariables()
-	db_postgres.InitDb()
+	db := db_postgres.InitDb()
+	defer db_postgres.CloseDb(db)
+	models.CreateUserTable(db)
 	router := initRouter()
 	listenAndServe(router)
 }

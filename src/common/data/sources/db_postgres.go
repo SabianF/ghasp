@@ -6,12 +6,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/SabianF/ghasp/src/common/data/models"
-
 	"github.com/jackc/pgx/v5"
 )
 
-func InitDb() {
+func InitDb() *pgx.Conn {
 	log.Println("Opening DB connection...")
 
 	host := os.Getenv("DB_HOST")
@@ -49,7 +47,6 @@ func InitDb() {
 	if err != nil {
 		log.Fatal("Failed to open DB: ", err)
 	}
-	defer db.Close(context.Background())
 
 	err = db.Ping(context.Background())
 	if err != nil {
@@ -58,5 +55,9 @@ func InitDb() {
 
 	log.Printf("Successfully opened DB connection: %s\n", db.Config().Database)
 
-	models.CreateUserTable(db)
+	return db
+}
+
+func CloseDb(db *pgx.Conn) {
+	db.Close(context.Background())
 }
