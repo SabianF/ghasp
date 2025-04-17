@@ -9,7 +9,9 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func InitDb() *pgx.Conn {
+var Db *pgx.Conn
+
+func InitDb() {
 	log.Println("Opening DB connection...")
 
 	host := os.Getenv("DB_HOST")
@@ -55,9 +57,22 @@ func InitDb() *pgx.Conn {
 
 	log.Printf("Successfully opened DB connection: %s\n", db.Config().Database)
 
-	return db
+	Db = db
 }
 
-func CloseDb(db *pgx.Conn) {
-	db.Close(context.Background())
+func CloseDb() {
+	log.Println("Closing database connection...")
+
+	if (Db.IsClosed()) {
+		log.Println("Database connection is already closed. Skipping.")
+		return
+	}
+
+	err := Db.Close(context.Background())
+	if (err != nil) {
+		log.Printf("Error closing database connection: %v\n", err)
+		return
+	}
+
+	log.Println("Done closing database connection.")
 }

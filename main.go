@@ -18,6 +18,7 @@ import (
 	"github.com/SabianF/ghasp/src/common/presentation/pages"
 
 	"github.com/gorilla/mux"
+	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -42,12 +43,14 @@ var tablePropsFooters = []string{
 	"3 footer 3",
 }
 
+var db *pgx.Conn
+
 func main() {
-	handleSigTerm()
+	handleSigTerm(db)
 	loadEnvironmentVariables()
-	db := db_postgres.InitDb()
-	defer db_postgres.CloseDb(db)
-	models.CreateUserTable(db)
+	db_postgres.InitDb()
+	defer db_postgres.CloseDb()
+	models.CreateUserTable()
 	router := initRouter()
 	listenAndServe(router)
 }
@@ -60,12 +63,13 @@ func loadEnvironmentVariables() {
 }
 
 // Allows graceful shutdown
-func handleSigTerm() {
+func handleSigTerm(db *pgx.Conn) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
 		log.Println("Received SIGTERM. Exiting...")
+		db_postgres.CloseDb()
 		os.Exit(1)
 	}()
 }

@@ -1,0 +1,37 @@
+package components
+
+type TabMenuItemProps struct {
+  Text string
+  Url string
+}
+
+type AnchorProps struct {
+  Text string
+  Url string
+}
+
+templ TabMenu() {
+  <ul class={ tabMenuCss() }>
+    @TabMenuItem(TabMenuItemProps{"Page 1", "#"})
+    @TabMenuItem(TabMenuItemProps{"Page 2", "#"})
+    @TabMenuItem(TabMenuItemProps{"Page 3", "#"})
+  </ul>
+}
+
+templ TabMenuItem(props TabMenuItemProps) {
+  <li class={ tabMenuItemCss() }>
+    @Anchor(props.Text, props.Url)
+  </li>
+}
+
+templ Anchor(text string, url string) {
+  <a href={ templ.SafeURL(url) }>{ text }</a>
+}
+
+css tabMenuCss() {
+  padding-inline-start: 0;
+}
+
+css tabMenuItemCss() {
+  list-style: none;
+}
