@@ -77,6 +77,7 @@ func handleSigTerm(db *pgx.Conn) {
 func initRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/", handleRoot)
+	router.HandleFunc("/table", handleTable)
 	router.HandleFunc("/db", handleDb)
 	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
@@ -108,6 +109,16 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
+	rootPageComponent := pages.RootPage()
+
+	err := rootPageComponent.Render(r.Context(), w)
+	if (err != nil) {
+		log.Fatalf("Failed to render component: %v\n", err)
+	}
+}
+
+func handleTable(w http.ResponseWriter, r *http.Request) {
+
 	tablePropsRowsAndData := generateTableData(1, 10, 3)
 
 	tableProps := components.TableProps{
@@ -117,12 +128,13 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 		Footers: tablePropsFooters,
 	}
 
-	rootPageComponent := pages.RootPage(tableProps)
-
-	err := rootPageComponent.Render(r.Context(), w)
-	if (err != nil) {
-		log.Fatalf("Failed to render component: %v\n", err)
+	tablePageProps := pages.TablePageProps{
+		TableProps: tableProps,
 	}
+
+	tablePageComponent := pages.TablePage(tablePageProps)
+
+	tablePageComponent.Render(r.Context(), w)
 }
 
 func handleDb(w http.ResponseWriter, r *http.Request) {

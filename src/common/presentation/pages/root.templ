@@ -3,20 +3,10 @@ package pages
 import components "github.com/SabianF/ghasp/src/common/presentation/components"
 import tabs "github.com/SabianF/ghasp/src/common/presentation/components/tabs"
 
-templ RootPage(tableProps components.TableProps) {
+templ RootPage() {
   @components.Layout() {
-    @components.TabMenu()
-    @pageArea(tableProps)
+    @components.TabMenuLayout() {
+      @tabs.Test()
+    }
   }
-}
-
-templ pageArea(tableProps components.TableProps) {
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/components/tab/tab.js"></script>
-  <sl-tab-group placement="start">
-    <sl-tab slot="nav" panel="test">Test Page</sl-tab>
-    <sl-tab slot="nav" panel="other">Other</sl-tab>
-
-    <sl-tab-panel name="test">@tabs.Test()</sl-tab-panel>
-    <sl-tab-panel name="other">@tabs.Other(tableProps)</sl-tab-panel>
-  </sl-tab-group>
 }

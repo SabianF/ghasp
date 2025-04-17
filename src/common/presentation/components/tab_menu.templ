@@ -11,11 +11,13 @@ type AnchorProps struct {
 }
 
 templ TabMenu() {
-  <ul class={ tabMenuCss() }>
-    @TabMenuItem(TabMenuItemProps{"Page 1", "#"})
-    @TabMenuItem(TabMenuItemProps{"Page 2", "#"})
-    @TabMenuItem(TabMenuItemProps{"Page 3", "#"})
-  </ul>
+  <div class={ tabMenuCss() } hx-boost="true">
+    <ul class={ tabMenuListCss() }>
+      @TabMenuItem(TabMenuItemProps{"Page 1", "/"})
+      @TabMenuItem(TabMenuItemProps{"Page 2", "/table"})
+      @TabMenuItem(TabMenuItemProps{"Page 3", "/multi-replace"})
+    </ul>
+  </div>
 }
 
 templ TabMenuItem(props TabMenuItemProps) {
@@ -29,6 +31,10 @@ templ Anchor(text string, url string) {
 }
 
 css tabMenuCss() {
+  padding: 32px;
+}
+
+css tabMenuListCss() {
   padding-inline-start: 0;
 }
 

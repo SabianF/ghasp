@@ -1,0 +1,23 @@
+package components
+
+templ TabMenuLayout() {
+  <article class={ sidebarLayoutCss() }>
+    @TabMenu()
+    { children... }
+  </article>
+}
+
+templ pageArea() {
+  <div class={ "container", pageAreaCss() }>
+    { children... }
+  </div>
+}
+
+css sidebarLayoutCss() {
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+}
+
+css pageAreaCss() {
+  display: block;
+}

@@ -1,0 +1,15 @@
+package pages
+
+import "github.com/SabianF/ghasp/src/common/presentation/components"
+
+type TablePageProps struct {
+  TableProps components.TableProps
+}
+
+templ TablePage(props TablePageProps) {
+  @components.Layout() {
+    @components.TabMenuLayout() {
+      @components.Table(props.TableProps)
+    }
+  }
+}
