@@ -18,7 +18,6 @@ import (
 	"github.com/SabianF/ghasp/src/common/presentation/pages"
 
 	"github.com/gorilla/mux"
-	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -43,10 +42,8 @@ var tablePropsFooters = []string{
 	"3 footer 3",
 }
 
-var db *pgx.Conn
-
 func main() {
-	handleSigTerm(db)
+	handleSigTerm()
 	loadEnvironmentVariables()
 	db_postgres.InitDb()
 	defer db_postgres.CloseDb()
@@ -63,7 +60,7 @@ func loadEnvironmentVariables() {
 }
 
 // Allows graceful shutdown
-func handleSigTerm(db *pgx.Conn) {
+func handleSigTerm() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
@@ -79,6 +76,21 @@ func initRouter() *mux.Router {
 	router.HandleFunc("/", handleRoot)
 	router.HandleFunc("/table", handleTable)
 	router.HandleFunc("/db", handleDb)
+	router.HandleFunc("/multi-replace", handleMultiReplace)
+	router.HandleFunc("/multi-replace-button", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("HX-Trigger", "one, two, three")
+	})
+	router.HandleFunc("/test-one", func(w http.ResponseWriter, r *http.Request) {
+		pages.TestComponent("one: " + time.Now().String()).Render(r.Context(), w)
+	})
+	router.HandleFunc("/test-two", func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(2 * time.Second)
+		pages.TestComponent("two: " + time.Now().String()).Render(r.Context(), w)
+	})
+	router.HandleFunc("/test-three", func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(1 * time.Second)
+		pages.TestComponent("three: " + time.Now().String()).Render(r.Context(), w)
+	})
 	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
 	http.Handle("/", router)
@@ -158,6 +170,11 @@ func handleDb(w http.ResponseWriter, r *http.Request) {
 	tableDataComponent := components.TableData(tableDataProps)
 
 	tableDataComponent.Render(r.Context(), w)
+}
+
+func handleMultiReplace(w http.ResponseWriter, r *http.Request) {
+	page := pages.MultiReplacePage()
+	page.Render(r.Context(), w)
 }
 
 func generateTableData(page int, numRows int, numColumns int) [][]string {
