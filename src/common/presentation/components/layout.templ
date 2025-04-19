@@ -20,7 +20,7 @@ templ Layout(props LayoutProps) {
       @helpers.ComponentScripts()
     </head>
     if (props.IncludeSidebar == true) {
-      @TabMenuLayout() {
+      @SidebarMenuLayout() {
         <body>
           { children... }
         </body>

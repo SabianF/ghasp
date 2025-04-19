@@ -1,0 +1,43 @@
+package components
+
+type SidebarMenuItemProps struct {
+  Text string
+  Url string
+}
+
+type AnchorProps struct {
+  Text string
+  Url string
+}
+
+templ SidebarMenu() {
+  <div class={ SidebarMenuCss() } hx-boost="true">
+    <ul class={ SidebarMenuListCss() }>
+      @SidebarMenuItem(SidebarMenuItemProps{"Page 1", "/"})
+      @SidebarMenuItem(SidebarMenuItemProps{"Page 2", "/table"})
+      @SidebarMenuItem(SidebarMenuItemProps{"Page 3", "/multi-replace"})
+    </ul>
+  </div>
+}
+
+templ SidebarMenuItem(props SidebarMenuItemProps) {
+  <li class={ SidebarMenuItemCss() }>
+    @Anchor(props.Text, props.Url)
+  </li>
+}
+
+templ Anchor(text string, url string) {
+  <a href={ templ.SafeURL(url) }>{ text }</a>
+}
+
+css SidebarMenuCss() {
+  padding: 32px;
+}
+
+css SidebarMenuListCss() {
+  padding-inline-start: 0;
+}
+
+css SidebarMenuItemCss() {
+  list-style: none;
+}
