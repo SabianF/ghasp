@@ -3,7 +3,17 @@ package pages
 import components "github.com/SabianF/ghasp/src/common/presentation/components"
 
 templ RootPage() {
-  @components.Layout(components.LayoutProps{ IncludeSidebar: true }) {
+  @components.Layout(components.LayoutProps{
+    IncludeSidebar: true,
+    SidebarMenuLayoutProps: components.SidebarMenuLayoutProps{
+      MenuProps: components.SidebarMenuProps{
+        SidebarMenuItemProps: []components.SidebarMenuItemProps{
+          components.SidebarMenuItemProps{ Text: "Home", Url: "/" },
+          components.SidebarMenuItemProps{ Text: "HTMX Examples", Url: "/htmx" },
+        },
+      },
+    },
+  }) {
     @test()
   }
 }

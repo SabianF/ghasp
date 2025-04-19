@@ -1,5 +1,9 @@
 package components
 
+type SidebarMenuProps struct {
+  SidebarMenuItemProps []SidebarMenuItemProps
+}
+
 type SidebarMenuItemProps struct {
   Text string
   Url string
@@ -10,11 +14,12 @@ type AnchorProps struct {
   Url string
 }
 
-templ SidebarMenu() {
+templ SidebarMenu(props SidebarMenuProps) {
   <div class={ SidebarMenuCss() } hx-boost="true">
     <ul class={ SidebarMenuListCss() }>
-      @SidebarMenuItem(SidebarMenuItemProps{"Home", "/"})
-      @SidebarMenuItem(SidebarMenuItemProps{"HTMX Examples", "/htmx"})
+      for _, sidebarMenuItemProps := range props.SidebarMenuItemProps {
+        @SidebarMenuItem(sidebarMenuItemProps)
+      }
     </ul>
   </div>
 }

@@ -1,8 +1,12 @@
 package components
 
-templ SidebarMenuLayout() {
+type SidebarMenuLayoutProps struct {
+  MenuProps SidebarMenuProps
+}
+
+templ SidebarMenuLayout(props SidebarMenuLayoutProps) {
   <article class={ sidebarLayoutCss() }>
-    @SidebarMenu()
+    @SidebarMenu(props.MenuProps)
     { children... }
   </article>
 }
