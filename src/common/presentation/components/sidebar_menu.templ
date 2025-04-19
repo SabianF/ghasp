@@ -13,9 +13,8 @@ type AnchorProps struct {
 templ SidebarMenu() {
   <div class={ SidebarMenuCss() } hx-boost="true">
     <ul class={ SidebarMenuListCss() }>
-      @SidebarMenuItem(SidebarMenuItemProps{"Page 1", "/"})
-      @SidebarMenuItem(SidebarMenuItemProps{"Page 2", "/table"})
-      @SidebarMenuItem(SidebarMenuItemProps{"Page 3", "/multi-replace"})
+      @SidebarMenuItem(SidebarMenuItemProps{"Home", "/"})
+      @SidebarMenuItem(SidebarMenuItemProps{"HTMX Examples", "/htmx"})
     </ul>
   </div>
 }
@@ -32,6 +31,8 @@ templ Anchor(text string, url string) {
 
 css SidebarMenuCss() {
   padding: 32px;
+  background-color: #344769;
+  box-shadow: 8px 0 8px 0 #344769;
 }
 
 css SidebarMenuListCss() {
