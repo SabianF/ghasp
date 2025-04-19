@@ -2,7 +2,11 @@ package components
 
 import "github.com/axzilla/templui/helpers"
 
-templ Layout() {
+type LayoutProps struct {
+  IncludeSidebar bool
+}
+
+templ Layout(props LayoutProps) {
   <!DOCTYPE html>
   <html lang="en" class="sl-theme-dark">
     <head>
@@ -15,8 +19,16 @@ templ Layout() {
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.blue.min.css" />
       @helpers.ComponentScripts()
     </head>
-    <body>
-      { children... }
-    </body>
+    if (props.IncludeSidebar == true) {
+      @TabMenuLayout() {
+        <body>
+          { children... }
+        </body>
+      }
+    } else {
+      <body>
+        { children... }
+      </body>
+    }
   </html>
 }
