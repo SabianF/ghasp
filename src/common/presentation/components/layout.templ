@@ -8,6 +8,24 @@ type LayoutProps struct {
 
 }
 
+func NewLayoutDefault() LayoutProps {
+	return LayoutProps{
+		IncludeSidebar: true,
+		SidebarMenuLayoutProps: SidebarMenuLayoutProps{
+			MenuProps: SidebarMenuProps{
+				SidebarMenuItemProps: []SidebarMenuItemProps{
+					{ Text: "Home", Url: "/" },
+					{ Text: "HTMX Examples", Url: "/htmx" },
+				},
+			},
+		},
+	}
+}
+
+func NewLayoutNoSidebar() LayoutProps {
+  return LayoutProps{ IncludeSidebar: false }
+}
+
 templ Layout(props LayoutProps) {
   <!DOCTYPE html>
   <html lang="en" class="sl-theme-dark">
