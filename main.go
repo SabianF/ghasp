@@ -92,12 +92,16 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 
 	err := rootPageComponent.Render(r.Context(), w)
 	if (err != nil) {
-		log.Printf("Failed to render component: %v\n", err)
+		log.Printf("Failed to render page: %v\n", err)
 	}
 }
 
 func handleHtmx(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<h1>HTMX Page<h1>"))
+	htmxExamplesPage := pages.HtmxExamplesPage()
+	err := htmxExamplesPage.Render(r.Context(), w)
+	if (err != nil) {
+		log.Printf("Failed to render page: %v\n", err)
+	}
 }
 
 func listenAndServe(router *mux.Router) {

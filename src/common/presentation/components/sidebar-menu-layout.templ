@@ -7,7 +7,9 @@ type SidebarMenuLayoutProps struct {
 templ SidebarMenuLayout(props SidebarMenuLayoutProps) {
   <article class={ sidebarLayoutCss() }>
     @SidebarMenu(props.MenuProps)
-    { children... }
+    <div class={ "container", "page-content" }>
+      { children... }
+    </div>
   </article>
 }
 

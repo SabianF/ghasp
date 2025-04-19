@@ -8,7 +8,7 @@ type LayoutProps struct {
 
 }
 
-func NewLayoutDefault() LayoutProps {
+func NewLayoutPropsDefault() LayoutProps {
 	return LayoutProps{
 		IncludeSidebar: true,
 		SidebarMenuLayoutProps: SidebarMenuLayoutProps{
@@ -22,7 +22,7 @@ func NewLayoutDefault() LayoutProps {
 	}
 }
 
-func NewLayoutNoSidebar() LayoutProps {
+func NewLayoutPropsNoSidebar() LayoutProps {
   return LayoutProps{ IncludeSidebar: false }
 }
 
@@ -39,16 +39,14 @@ templ Layout(props LayoutProps) {
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.blue.min.css" />
       @helpers.ComponentScripts()
     </head>
-    if (props.IncludeSidebar == true) {
-      @SidebarMenuLayout(props.SidebarMenuLayoutProps) {
-        <body>
+    <body>
+      if (props.IncludeSidebar) {
+        @SidebarMenuLayout(props.SidebarMenuLayoutProps) {
           { children... }
-        </body>
-      }
-    } else {
-      <body>
+        }
+      } else {
         { children... }
-      </body>
-    }
+      }
+    </body>
   </html>
 }
