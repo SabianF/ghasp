@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/SabianF/ghasp/src/common/data/models"
+	data_repos "github.com/SabianF/ghasp/src/common/data/repositories"
 	db_postgres "github.com/SabianF/ghasp/src/common/data/sources"
 	"github.com/SabianF/ghasp/src/common/presentation/pages"
 
@@ -56,7 +57,7 @@ func handleSigTerm() {
 
 func initRouter() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/", handleRoot)
+	router.HandleFunc(data_repos.RootUrl, data_repos.RootHandleRequest)
 	router.HandleFunc("/htmx", handleHtmx)
 	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
@@ -85,15 +86,6 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 		},
 	)
-}
-
-func handleRoot(w http.ResponseWriter, r *http.Request) {
-	rootPageComponent := pages.RootPage()
-
-	err := rootPageComponent.Render(r.Context(), w)
-	if (err != nil) {
-		log.Printf("Failed to render page: %v\n", err)
-	}
 }
 
 func handleHtmx(w http.ResponseWriter, r *http.Request) {
