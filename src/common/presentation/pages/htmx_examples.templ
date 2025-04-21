@@ -1,6 +1,7 @@
 package pages
 
 import "github.com/SabianF/ghasp/src/common/presentation/components"
+import "github.com/SabianF/ghasp/src/common/domain/repositories"
 
 // TODO(HTMX): Create table utilizing HTMX examples
 //? Link it with the PostgreSQL DB, if feasible. Otherwise, use in-memory DB.
@@ -16,7 +17,30 @@ templ HtmxExamplesPage(props HtmxExamplesPageProps) {
   @components.Layout(props.LayoutProps) {
     <h1>HTMX Examples</h1>
     <article>
+      @tableForm()
       @components.Table(props.TestTableProps)
     </article>
   }
+}
+
+templ tableForm() {
+  <form
+    hx-put={ domain_repos.HtmxExamplesAddEntryUrl }
+    hx-target="#the-table > tbody"
+    hx-swap="beforeend"
+  >
+    <div>
+      <label>First name</label>
+      <input type="text"  name="name_first">
+    </div>
+    <div>
+      <label>Last name</label>
+      <input type="text"  name="name_last">
+    </div>
+    <div>
+      <label>Email</label>
+      <input type="text"  name="email">
+    </div>
+    <button>Submit</button>
+  </form>
 }

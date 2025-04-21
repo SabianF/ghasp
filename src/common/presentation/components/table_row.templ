@@ -1,0 +1,15 @@
+package components
+
+type TableRowProps struct {
+  Columns []string
+}
+
+templ TableRow(props TableRowProps) {
+  <tr>
+    for _, item := range props.Columns {
+      <td>
+        { item }
+      </td>
+    }
+  </tr>
+}

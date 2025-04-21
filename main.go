@@ -59,6 +59,7 @@ func initRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc(domain_repos.RootPageUrl, data_repos.RootPageHandleRequest)
 	router.HandleFunc(domain_repos.HtmxExamplesPageUrl, data_repos.HtmxExamplesPageHandleRequest)
+	router.HandleFunc(domain_repos.HtmxExamplesAddEntryUrl, data_repos.HtmxExamplesAddEntryHandleRequest)
 	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
 	http.Handle("/", router)
