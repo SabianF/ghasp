@@ -9,11 +9,14 @@ import "github.com/SabianF/ghasp/src/common/presentation/components"
 
 type HtmxExamplesPageProps struct {
   LayoutProps components.LayoutProps
+  TestTableProps components.TableProps
 }
 
 templ HtmxExamplesPage(props HtmxExamplesPageProps) {
   @components.Layout(props.LayoutProps) {
     <h1>HTMX Examples</h1>
-    <p>Test page</p>
+    <article>
+      @components.Table(props.TestTableProps)
+    </article>
   }
 }

@@ -1,4 +1,4 @@
-package db_postgres
+package sources
 
 import (
 	"context"
@@ -16,27 +16,27 @@ func InitDb() {
 
 	host := os.Getenv("DB_HOST")
 	if host == "" {
-		log.Fatal("Failed to get DB_HOST from .env")
+		log.Println("Failed to get DB_HOST from .env")
 	}
 
 	port := os.Getenv("DB_PORT")
 	if port == "" {
-		log.Fatal("Failed to get DB_PORT from .env")
+		log.Println("Failed to get DB_PORT from .env")
 	}
 
 	user := os.Getenv("DB_USER")
 	if host == "" {
-		log.Fatal("Failed to get DB_USER from .env")
+		log.Println("Failed to get DB_USER from .env")
 	}
 
 	pass := os.Getenv("DB_PASS")
 	if host == "" {
-		log.Fatal("Failed to get DB_PASS from .env")
+		log.Println("Failed to get DB_PASS from .env")
 	}
 
 	name := os.Getenv("DB_NAME")
 	if host == "" {
-		log.Fatal("Failed to get DB_NAME from .env")
+		log.Println("Failed to get DB_NAME from .env")
 	}
 
 	dataSource := fmt.Sprintf(
@@ -47,12 +47,12 @@ func InitDb() {
 
 	db, err := pgx.Connect(context.Background(), dataSource)
 	if err != nil {
-		log.Fatal("Failed to open DB: ", err)
+		log.Fatalln("Failed to open DB: ", err)
 	}
 
 	err = db.Ping(context.Background())
 	if err != nil {
-		log.Fatal("Failed to establish connection to DB: ", err)
+		log.Fatalln("Failed to establish connection to DB: ", err)
 	}
 
 	log.Printf("Successfully opened DB connection: %s\n", db.Config().Database)
