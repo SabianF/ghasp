@@ -8,15 +8,16 @@ import (
 	"github.com/SabianF/ghasp/src/common/presentation/pages"
 )
 
-func RootHandleRequest(w http.ResponseWriter, r *http.Request) {
+const HtmxExamplesUrl string = "/htmx-examples"
 
-	rootPageProps := pages.RootPageProps{
+func HtmxExamplesHandleRequest(w http.ResponseWriter, r *http.Request) {
+
+	htmxExamplesPageProps := pages.HtmxExamplesPageProps{
 		LayoutProps: domain_repos.NewLayoutPropsDefault(),
 	}
 
-	rootPageComponent := pages.RootPage(rootPageProps)
-
-	err := rootPageComponent.Render(r.Context(), w)
+	htmxExamplesPage := pages.HtmxExamplesPage(htmxExamplesPageProps)
+	err := htmxExamplesPage.Render(r.Context(), w)
 	if err != nil {
 		log.Printf("Failed to render page: %v\n", err)
 	}

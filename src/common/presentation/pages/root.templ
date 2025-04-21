@@ -2,8 +2,12 @@ package pages
 
 import components "github.com/SabianF/ghasp/src/common/presentation/components"
 
-templ RootPage() {
-  @components.Layout(components.NewLayoutPropsDefault()) {
+type RootPageProps struct {
+  LayoutProps components.LayoutProps
+}
+
+templ RootPage(props RootPageProps) {
+  @components.Layout(props.LayoutProps) {
     @test()
   }
 }

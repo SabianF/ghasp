@@ -7,8 +7,12 @@ import "github.com/SabianF/ghasp/src/common/presentation/components"
 //? Make sure to include labels for each HTMX feature being used
 //? Consider using context menus: https://davidwalsh.name/html5-context-menu
 
-templ HtmxExamplesPage() {
-  @components.Layout(components.NewLayoutPropsDefault()) {
+type HtmxExamplesPageProps struct {
+  LayoutProps components.LayoutProps
+}
+
+templ HtmxExamplesPage(props HtmxExamplesPageProps) {
+  @components.Layout(props.LayoutProps) {
     <h1>HTMX Examples</h1>
     <p>Test page</p>
   }

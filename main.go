@@ -13,7 +13,7 @@ import (
 	"github.com/SabianF/ghasp/src/common/data/models"
 	data_repos "github.com/SabianF/ghasp/src/common/data/repositories"
 	db_postgres "github.com/SabianF/ghasp/src/common/data/sources"
-	"github.com/SabianF/ghasp/src/common/presentation/pages"
+	domain_repos "github.com/SabianF/ghasp/src/common/domain/repositories"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -57,8 +57,8 @@ func handleSigTerm() {
 
 func initRouter() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc(data_repos.RootUrl, data_repos.RootHandleRequest)
-	router.HandleFunc("/htmx", handleHtmx)
+	router.HandleFunc(domain_repos.RootPageUrl, data_repos.RootHandleRequest)
+	router.HandleFunc(data_repos.HtmxExamplesUrl, data_repos.HtmxExamplesHandleRequest)
 	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
 	http.Handle("/", router)
@@ -86,14 +86,6 @@ func middlewareLogRequests(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 		},
 	)
-}
-
-func handleHtmx(w http.ResponseWriter, r *http.Request) {
-	htmxExamplesPage := pages.HtmxExamplesPage()
-	err := htmxExamplesPage.Render(r.Context(), w)
-	if (err != nil) {
-		log.Printf("Failed to render page: %v\n", err)
-	}
 }
 
 func listenAndServe(router *mux.Router) {
