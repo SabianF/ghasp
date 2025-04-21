@@ -19,5 +19,7 @@ func NewLayoutPropsDefault() components.LayoutProps {
 }
 
 func NewLayoutPropsNoSidebar() components.LayoutProps {
-	return components.LayoutProps{IncludeSidebar: false}
+	return components.LayoutProps{
+		IncludeSidebar: false,
+	}
 }

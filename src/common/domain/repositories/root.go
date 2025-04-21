@@ -1,4 +1,4 @@
 package domain_repos
 
-const RootPageName = "Home"
-const RootPageUrl = "/"
+const RootPageName string = "Home"
+const RootPageUrl string = "/"

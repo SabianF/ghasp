@@ -8,7 +8,7 @@ import (
 	"github.com/SabianF/ghasp/src/common/presentation/pages"
 )
 
-func RootHandleRequest(w http.ResponseWriter, r *http.Request) {
+func RootPageHandleRequest(w http.ResponseWriter, r *http.Request) {
 
 	rootPageProps := pages.RootPageProps{
 		LayoutProps: domain_repos.NewLayoutPropsDefault(),

@@ -57,8 +57,8 @@ func handleSigTerm() {
 
 func initRouter() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc(domain_repos.RootPageUrl, data_repos.RootHandleRequest)
-	router.HandleFunc(data_repos.HtmxExamplesUrl, data_repos.HtmxExamplesHandleRequest)
+	router.HandleFunc(domain_repos.RootPageUrl, data_repos.RootPageHandleRequest)
+	router.HandleFunc(domain_repos.HtmxExamplesPageUrl, data_repos.HtmxExamplesPageHandleRequest)
 	serveStaticFiles(router)
 	router.Use(middlewareLogRequests)
 	http.Handle("/", router)

@@ -1,4 +1,4 @@
 package domain_repos
 
-const HtmxExamplesPageName = "HTMX Examples"
-const HtmxExamplesPageUrl = "/htmx-examples"
+const HtmxExamplesPageName string = "HTMX Examples"
+const HtmxExamplesPageUrl string = "/htmx-examples"

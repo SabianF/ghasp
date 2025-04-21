@@ -8,9 +8,7 @@ import (
 	"github.com/SabianF/ghasp/src/common/presentation/pages"
 )
 
-const HtmxExamplesUrl string = "/htmx-examples"
-
-func HtmxExamplesHandleRequest(w http.ResponseWriter, r *http.Request) {
+func HtmxExamplesPageHandleRequest(w http.ResponseWriter, r *http.Request) {
 
 	htmxExamplesPageProps := pages.HtmxExamplesPageProps{
 		LayoutProps: domain_repos.NewLayoutPropsDefault(),
