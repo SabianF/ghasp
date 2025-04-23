@@ -2,6 +2,7 @@ package entities
 
 import (
 	"errors"
+	"net/mail"
 	"time"
 )
 
@@ -25,14 +26,19 @@ func NewUser(
 ) (User, error) {
 
 	if (name_first == "" || name_last == "" || email == "") {
-		err := errors.New("new User is missing name or email")
+		err := errors.New("missing name or email")
+		return nil, err
+	}
+
+	parsedEmail, err := mail.ParseAddress(email)
+	if (err != nil) {
 		return nil, err
 	}
 
 	userResult := user{
 		Name_first: name_first,
 		Name_last: name_last,
-		Email: email,
+		Email: parsedEmail.Address,
 	}
 
 	return &userResult, nil

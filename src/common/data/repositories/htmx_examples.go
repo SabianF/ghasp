@@ -37,7 +37,10 @@ func HtmxExamplesAddEntryHandleRequest(w http.ResponseWriter, r *http.Request) {
 		r.FormValue("email"),
 	)
 	if (err != nil) {
-		log.Printf("Failed to create new user: %v\n", r.Form)
+		log.Printf("Failed to create new user: %s\n", err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
 	}
 
 	newRow := []string{
