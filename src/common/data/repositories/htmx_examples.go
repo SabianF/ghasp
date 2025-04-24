@@ -31,15 +31,29 @@ func HtmxExamplesPageHandleRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func HtmxExamplesAddEntryHandleRequest(w http.ResponseWriter, r *http.Request) {
+
+	// TODO: Validate inputs from data repo
+	nameFirst := r.FormValue("name_first")
+	nameLast := r.FormValue("name_last")
+	email := r.FormValue("email")
+
 	newEntry, err := entities.NewUser(
-		r.FormValue("name_first"),
-		r.FormValue("name_last"),
-		r.FormValue("email"),
+		nameFirst,
+		nameLast,
+		email,
 	)
 	if (err != nil) {
 		log.Printf("Failed to create new user: %s\n", err.Error())
+
+		w.Header().Add("HX-Target", "form-error")
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(err.Error()))
+
+		components.NotificationError(
+			components.NotificationErrorProps{
+				Message: err.Error(),
+			},
+		).Render(r.Context(), w)
+
 		return
 	}
 

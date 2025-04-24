@@ -20,6 +20,7 @@ templ HtmxExamplesPage(props HtmxExamplesPageProps) {
       @tableForm()
       @components.Table(props.TestTableProps)
     </article>
+    @components.NotificationContainer()
   }
 }
 
@@ -28,6 +29,7 @@ templ tableForm() {
     hx-put={ domain_repos.HtmxExamplesAddEntryUrl }
     hx-target="#the-table > tbody"
     hx-swap="beforeend"
+    hx-target-error="#notifications"
   >
     <div>
       <label>First name</label>

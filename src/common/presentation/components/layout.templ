@@ -17,11 +17,13 @@ templ Layout(props LayoutProps) {
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>GHASP Stack Test Page</title>
       <link rel="stylesheet" type="text/css" href="assets/css/global.css">
-      <script defer src="/assets/js/htmx.2.0.4.min.js"></script>
+      <script defer src="assets/js/htmx.2.0.4.min.js"></script>
+      <script defer src="assets/js/htmx.ext.response.targets.2.0.3.min.js"></script>
+      <script defer src="assets/js/_hyperscript.0.9.14.min.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.blue.min.css" />
       @helpers.ComponentScripts()
     </head>
-    <body>
+    <body hx-ext="response-targets">
       if (props.IncludeSidebar) {
         @SidebarMenuLayout(props.SidebarMenuLayoutProps) {
           { children... }
