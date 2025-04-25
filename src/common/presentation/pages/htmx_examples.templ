@@ -43,9 +43,6 @@ templ tableForm() {
       <label>Email</label>
       <input type="text"  name="email">
     </div>
-    <button>
-      Submit
-      <img class="htmx-indicator" src="/assets/svg/spinner.svg">
-    </button>
+    @components.Button(components.ButtonProps{ Text: "Submit" })
   </form>
 }

@@ -1,0 +1,41 @@
+package components
+
+type ButtonProps struct {
+  Text string
+}
+
+var buttonCssHandler = templ.NewOnceHandle()
+
+templ Button(props ButtonProps) {
+  @buttonCssHandler.Once() {
+    @buttonCss()
+  }
+  <button>
+    <img id="spinner" class="htmx-indicator spinner" src="/assets/svg/spinner.svg">
+    <span class="button-text">{ props.Text }</span>
+  </button>
+}
+
+templ buttonCss() {
+  <style>
+    button {
+      min-width: 128px;
+    }
+
+    .spinner {
+      display: none;
+    }
+
+    .htmx-request .spinner {
+      display: inline;
+    }
+
+    .htmx-request.spinner {
+      display: inline;
+    }
+
+    .htmx-request .button-text {
+      display: none;
+    }
+  </style>
+}
