@@ -8,11 +8,11 @@ type RootPageProps struct {
 
 templ RootPage(props RootPageProps) {
   @components.Layout(props.LayoutProps) {
-    @test()
+    @components.Loader(components.LoaderProps{ UrlToLoad: "/test-data" })
   }
 }
 
-templ test() {
+templ RootPageData() {
   <div id="top" role="document" class={ "grid", "container" }>
     <article>
       <header>

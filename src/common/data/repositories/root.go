@@ -21,3 +21,8 @@ func RootPageHandleRequest(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Failed to render page: %v\n", err)
 	}
 }
+
+func RootPageHandleRequestTestData(w http.ResponseWriter, r *http.Request) {
+	testDataComponent := pages.RootPageData()
+	testDataComponent.Render(r.Context(), w)
+}
