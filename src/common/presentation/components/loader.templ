@@ -1,0 +1,35 @@
+package components
+
+type LoaderProps struct {
+  UrlToLoad string
+  FixedWidth string
+  FixedHeight string
+}
+
+templ Loader(props LoaderProps) {
+  <div
+    class={
+      loaderCss(),
+      templ.KV(loaderCssWidth(props.FixedWidth), props.FixedWidth != ""),
+      templ.KV(loaderCssHeight(props.FixedHeight), props.FixedHeight != ""),
+    }
+    hx-trigger="load"
+    hx-get={ props.UrlToLoad }
+  >
+    @LoadingIndicatorDefault()
+  </div>
+}
+
+css loaderCss() {
+  text-align: center;
+  padding: 8px;
+  background-color: #888;
+}
+
+css loaderCssWidth(fixedWidth string) {
+  width: { fixedWidth };
+}
+
+css loaderCssHeight(fixedHeight string) {
+  height: { fixedHeight };
+}
