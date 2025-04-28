@@ -31,8 +31,6 @@ func HtmxExamplesPageHandleRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func HtmxExamplesAddEntryHandleRequest(w http.ResponseWriter, r *http.Request) {
-
-	// TODO: Validate inputs from data repo
 	nameFirst := r.FormValue("name_first")
 	nameLast := r.FormValue("name_last")
 	email := r.FormValue("email")
