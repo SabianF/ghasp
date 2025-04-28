@@ -25,13 +25,24 @@ func NewUser(
 	email string,
 ) (User, error) {
 
-	if (name_first == "" || name_last == "" || email == "") {
-		err := errors.New("missing name or email")
+	if (name_first == "") {
+		err := errors.New("missing first name")
+		return nil, err
+	}
+
+	if (name_last == "") {
+		err := errors.New("missing last name")
+		return nil, err
+	}
+
+	if (email == "") {
+		err := errors.New("missing email")
 		return nil, err
 	}
 
 	parsedEmail, err := mail.ParseAddress(email)
 	if (err != nil) {
+		err = errors.Join(errors.New("invalid email: "), err)
 		return nil, err
 	}
 
