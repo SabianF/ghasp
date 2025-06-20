@@ -1,7 +1,14 @@
 package components
 
+import "encoding/json"
+
 type TableRowProps struct {
   Columns []string
+}
+
+type TableRowEditableProps struct {
+  Columns map[string]string
+  Url string
 }
 
 templ TableRow(props TableRowProps) {
@@ -9,6 +16,32 @@ templ TableRow(props TableRowProps) {
     for _, item := range props.Columns {
       <td>
         { item }
+      </td>
+    }
+  </tr>
+}
+
+func getStringFromMap(theMap map[string]string) string {
+  marshalResult, _ := json.Marshal(theMap)
+  return string(marshalResult)
+}
+
+templ TableRowEditable(props TableRowEditableProps) {
+  <tr>
+    for key, value := range props.Columns {
+      {{
+        var headerMap = map[string]string{
+          key: value,
+        }
+        var hxHeader string = getStringFromMap(headerMap)
+      }}
+      <td>
+        <form
+          hx-patch={ props.Url }
+          hx-headers={ hxHeader }
+        >
+          <input type="text" name={ key } value={ value }>
+        </form>
       </td>
     }
   </tr>

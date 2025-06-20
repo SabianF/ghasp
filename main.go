@@ -10,9 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/SabianF/ghasp/src/common/data/models"
 	data_repos "github.com/SabianF/ghasp/src/common/data/repositories"
-	db_postgres "github.com/SabianF/ghasp/src/common/data/sources"
+	database "github.com/SabianF/ghasp/src/common/data/sources"
 	domain_repos "github.com/SabianF/ghasp/src/common/domain/repositories"
 
 	"github.com/gorilla/mux"
@@ -29,9 +28,8 @@ import (
 func main() {
 	handleSigTerm()
 	loadEnvironmentVariables()
-	db_postgres.InitDb()
-	defer db_postgres.CloseDb()
-	models.CreateUserTable()
+	database.InitDb()
+	defer database.CloseDb()
 	router := initRouter()
 	listenAndServe(router)
 }
@@ -50,7 +48,7 @@ func handleSigTerm() {
 	go func() {
 		<-c
 		log.Println("Received SIGTERM. Exiting...")
-		db_postgres.CloseDb()
+		database.CloseDb()
 		os.Exit(1)
 	}()
 }
