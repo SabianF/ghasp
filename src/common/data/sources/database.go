@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"net/mail"
 	"time"
 
 	"github.com/SabianF/ghasp/src/common/domain/entities"
@@ -61,7 +62,7 @@ func (db Database) GetAllUsers() ([]entities.User, error) {
 
 func (db Database) CreateUser(user entities.User) (entities.User, error) {
 	if (user.User().Id != "") {
-		_, _, err := findUser(user.User().Id)
+		_, _, err := findUserById(user.User().Id)
 		if (err == nil) {
 			return nil, errors.New("user already exists")
 		}
@@ -70,9 +71,19 @@ func (db Database) CreateUser(user entities.User) (entities.User, error) {
 		}
 	}
 
+	foundUserByEmail, _, errFindUserByEmail := findUserByEmail(user.User().Email)
+	if (errFindUserByEmail == nil) {
+		if (foundUserByEmail != nil) {
+			return nil, errors.New("user with email [" + user.User().Email + "] already exists")
+		}
+	}
+	if (errFindUserByEmail.Error() != "user not found") {
+		return nil, errFindUserByEmail
+	}
+
 	Db.users = append(Db.users, user)
 
-	createdUser, _, err := findUser(user.User().Id)
+	createdUser, _, err := findUserById(user.User().Id)
 	if (err != nil) {
 		return nil, errors.New("failed to create user: " + err.Error())
 	}
@@ -81,7 +92,7 @@ func (db Database) CreateUser(user entities.User) (entities.User, error) {
 }
 
 func (db Database) GetUser(id string) (entities.User, error) {
-	foundUser, _, err := findUser(id)
+	foundUser, _, err := findUserById(id)
 	if (err != nil) {
 		return nil, err
 	}
@@ -90,7 +101,7 @@ func (db Database) GetUser(id string) (entities.User, error) {
 }
 
 func (db Database) UpdateUser(user entities.User) (entities.User, error) {
-	foundUserBeforeChanges, foundUserIndex, err := findUser(user.User().Id)
+	foundUserBeforeChanges, foundUserIndex, err := findUserById(user.User().Id)
 	if (err != nil) {
 		return nil, errors.New(err.Error())
 	}
@@ -99,7 +110,7 @@ func (db Database) UpdateUser(user entities.User) (entities.User, error) {
 	Db.users[foundUserIndex] = user
 	log.Println(Db.users[foundUserIndex].User())
 
-	foundUserAfterChanges, _, err := findUser(user.User().Id)
+	foundUserAfterChanges, _, err := findUserById(user.User().Id)
 	if (err != nil) {
 		return nil, errors.New("failed to update user: " + err.Error())
 	}
@@ -110,13 +121,29 @@ func (db Database) UpdateUser(user entities.User) (entities.User, error) {
 	return foundUserAfterChanges, nil
 }
 
-func findUser(id string) (entities.User, int, error) {
+func findUserById(id string) (entities.User, int, error) {
 	if (id == "") {
 		return nil, -1, errors.New("valid id not provided")
 	}
 
 	for i, user := range Db.users {
 		if (user.User().Id == id) {
+			return user, i, nil
+		}
+	}
+
+	return nil, -1, errors.New("user not found")
+}
+
+func findUserByEmail(email string) (entities.User, int, error) {
+	emailParsed, err := mail.ParseAddress(email)
+	if (err != nil) {
+		return nil, -1, errors.New("valid email not provided: " + err.Error())
+	}
+
+	for i, user := range Db.users {
+		log.Println("Comparing: " + user.User().Email + " : " + emailParsed.Address)
+		if (user.User().Email == emailParsed.Address) {
 			return user, i, nil
 		}
 	}

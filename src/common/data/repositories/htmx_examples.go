@@ -1,13 +1,11 @@
 package data_repos
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/SabianF/ghasp/src/common/data/models"
-	"github.com/SabianF/ghasp/src/common/data/sources"
 	"github.com/SabianF/ghasp/src/common/domain/entities"
 	domain_repos "github.com/SabianF/ghasp/src/common/domain/repositories"
 	"github.com/SabianF/ghasp/src/common/presentation/components"
@@ -88,16 +86,6 @@ func HtmxExamplesAddEntryHandleRequest(w http.ResponseWriter, r *http.Request) {
 		sendErrorNotification(w, err, r)
 		return
 	}
-
-	allUsers, err := sources.Db.GetAllUsers()
-	if (err != nil) {
-		log.Println(err)
-	}
-	allUsersString := ""
-	for _, user := range allUsers {
-		allUsersString += fmt.Sprintf("%v\n", user)
-	}
-	log.Println(allUsersString)
 
 	tableRowComponent := components.TableRow(components.TableRowProps{
 		Columns: newRow,
