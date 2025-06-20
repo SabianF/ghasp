@@ -46,13 +46,44 @@ func NewUser(
 		return nil, err
 	}
 
-	userResult := user{
+	newUser := user{
 		Name_first: name_first,
 		Name_last: name_last,
 		Email: parsedEmail.Address,
 	}
 
-	return &userResult, nil
+	return &newUser, nil
+}
+
+func CreateUserFromModel(
+	id string,
+	created_at string,
+	updated_at string,
+	name_first string,
+	name_last string,
+	email string,
+) (User, error) {
+
+	created_at_parsed, errCreatedAt := time.Parse(time.RFC3339Nano, created_at)
+	if (errCreatedAt != nil) {
+		return nil, errCreatedAt
+	}
+
+	updated_at_parsed, errUpdatedAt := time.Parse(time.RFC3339Nano, updated_at)
+	if (errUpdatedAt != nil) {
+		return nil, errUpdatedAt
+	}
+
+	newUser := user{
+		Id: id,
+		Created_at: created_at_parsed,
+		Updated_at: updated_at_parsed,
+		Name_first: name_first,
+		Name_last: name_last,
+		Email: email,
+	}
+
+	return &newUser, nil
 }
 
 func (user *user) User() user {

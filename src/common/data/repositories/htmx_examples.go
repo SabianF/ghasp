@@ -1,10 +1,12 @@
 package data_repos
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 
+	"github.com/SabianF/ghasp/src/common/data/models"
 	"github.com/SabianF/ghasp/src/common/data/sources"
 	"github.com/SabianF/ghasp/src/common/domain/entities"
 	domain_repos "github.com/SabianF/ghasp/src/common/domain/repositories"
@@ -13,20 +15,46 @@ import (
 )
 
 func HtmxExamplesPageHandleRequest(w http.ResponseWriter, r *http.Request) {
+	pageString := r.FormValue("page")
+	if (pageString == "") {
+		pageString = "1"
+	}
+	_, errParseInt := strconv.ParseInt(
+		pageString, 10, 64,
+	)
+	if (errParseInt != nil) {
+		errMsg := "valid page not provided: " + errParseInt.Error()
+		log.Println(errMsg)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(errMsg))
+		return
+	}
+
+	userTableHeadings := models.GetUserFieldNames()
+
+	rowsAndColumns, errGetTestTableData := getTestTableData()
+	if (errGetTestTableData != nil) {
+		errMsg := "cannot get user data: " + errGetTestTableData.Error()
+		log.Println(errMsg)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(errMsg))
+		return
+	}
 
 	htmxExamplesPageProps := pages.HtmxExamplesPageProps{
 		LayoutProps: domain_repos.NewLayoutPropsDefault(),
 		TestTableProps: components.TableProps{
-			Page: strconv.Itoa(sources.TestTablePageCurrent),
-			Headings: sources.TestTableHeadings,
-			RowsAndColumns: sources.TestTableData,
+			Page: pageString,
+			Headings: userTableHeadings,
+			RowsAndColumns: rowsAndColumns,
 		},
 	}
 
 	htmxExamplesPage := pages.HtmxExamplesPage(htmxExamplesPageProps)
-	err := htmxExamplesPage.Render(r.Context(), w)
-	if err != nil {
-		log.Printf("Failed to render page: %v\n", err)
+	errRender := htmxExamplesPage.Render(r.Context(), w)
+	if errRender != nil {
+		log.Printf("Failed to render page: %v\n", errRender)
+		return
 	}
 }
 
@@ -35,37 +63,77 @@ func HtmxExamplesAddEntryHandleRequest(w http.ResponseWriter, r *http.Request) {
 	nameLast := r.FormValue("name_last")
 	email := r.FormValue("email")
 
-	newEntry, err := entities.NewUser(
+	newUser, errCreateUser := entities.NewUser(
 		nameFirst,
 		nameLast,
 		email,
 	)
-	if (err != nil) {
-		log.Printf("Failed to create new user: %s\n", err.Error())
-
-		w.Header().Add("HX-Target", "form-error")
-		w.WriteHeader(http.StatusBadRequest)
-
-		components.NotificationError(
-			components.NotificationErrorProps{
-				Message: err.Error(),
-			},
-		).Render(r.Context(), w)
-
+	if (errCreateUser != nil) {
+		log.Println("Failed to create new user:" + errCreateUser.Error())
+		sendErrorNotification(w, errCreateUser, r)
 		return
 	}
 
 	newRow := []string{
-		newEntry.User().Name_first,
-		newEntry.User().Name_last,
-		newEntry.User().Email,
+		newUser.User().Name_first,
+		newUser.User().Name_last,
+		newUser.User().Email,
 	}
 
-	sources.TestTableData = append(sources.TestTableData, newRow)
+	// Update user data
+	_, err := models.CreateUserModel(newUser).Create()
+	if (err != nil) {
+		errMsg := "failed to add entry: " + err.Error()
+		log.Println(errMsg)
+		sendErrorNotification(w, err, r)
+		return
+	}
+
+	allUsers, err := sources.Db.GetAllUsers()
+	if (err != nil) {
+		log.Println(err)
+	}
+	allUsersString := ""
+	for _, user := range allUsers {
+		allUsersString += fmt.Sprintf("%v\n", user)
+	}
+	log.Println(allUsersString)
 
 	tableRowComponent := components.TableRow(components.TableRowProps{
 		Columns: newRow,
 	})
 
-	tableRowComponent.Render(r.Context(), w)
+	errRender := tableRowComponent.Render(r.Context(), w)
+	if (errRender != nil) {
+		log.Println("Failed to render table row component: " + errRender.Error())
+	}
+}
+
+func getTestTableData() ([][]string, error) {
+	userData, errGetAllUsers := models.GetAllUsers()
+	if (errGetAllUsers != nil) {
+		return nil, errGetAllUsers
+	}
+
+	var rowsAndColumns = [][]string{}
+
+	for _, user := range userData {
+		rowsAndColumns = append(rowsAndColumns, []string{
+			user.User().Name_first,
+			user.User().Name_last,
+			user.User().Email,
+		})
+	}
+	return rowsAndColumns, nil
+}
+
+func sendErrorNotification(w http.ResponseWriter, errCreateUser error, r *http.Request) {
+	w.Header().Add("HX-Target", "form-error")
+	w.WriteHeader(http.StatusBadRequest)
+
+	components.NotificationError(
+		components.NotificationErrorProps{
+			Message: errCreateUser.Error(),
+		},
+	).Render(r.Context(), w)
 }
